@@ -1,0 +1,9 @@
+# Local Kubernetes cluster with kind; maps NodePort 30096 to localhost:30096
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: claims
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30096
+        hostPort: 30096

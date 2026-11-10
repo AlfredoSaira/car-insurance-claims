@@ -1,0 +1,5 @@
+,poisson_deviance,d2,gini
+Baseline,0.62738,-1e-05,0.01501
+Poisson GLM,0.59713,0.04821,0.29372
+Random Forest,0.57946,0.07639,0.34072
+XGBoost,0.57564,0.08248,0.35192

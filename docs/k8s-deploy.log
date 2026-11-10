@@ -1,0 +1,92 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 742B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.13
+#2 ...
+
+#3 [internal] load metadata for docker.io/library/python:3.11-slim-bookworm
+#3 DONE 0.7s
+
+#2 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.13
+#2 DONE 0.7s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 125B done
+#4 DONE 0.0s
+
+#5 FROM ghcr.io/astral-sh/uv:0.12.13@sha256:b485bd65cc2cf1c9a93b3554012c9c3778cf7b1b5fd3d3096ce9e1226c97e1e6
+#5 resolve ghcr.io/astral-sh/uv:0.12.13@sha256:b485bd65cc2cf1c9a93b3554012c9c3778cf7b1b5fd3d3096ce9e1226c97e1e6 0.0s done
+#5 DONE 0.0s
+
+#6 [stage-0 1/8] FROM docker.io/library/python:3.11-slim-bookworm@sha256:a83ba18aef0f865b1a4a611c2cf460fe446f2795673bbb9fe43be570439e3b39
+#6 resolve docker.io/library/python:3.11-slim-bookworm@sha256:a83ba18aef0f865b1a4a611c2cf460fe446f2795673bbb9fe43be570439e3b39 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 3.99MB 0.0s done
+#7 DONE 0.1s
+
+#8 [stage-0 3/8] COPY --from=ghcr.io/astral-sh/uv:0.12.13 /uv /bin/uv
+#8 CACHED
+
+#9 [stage-0 4/8] WORKDIR /app
+#9 CACHED
+
+#10 [stage-0 5/8] COPY pyproject.toml uv.lock .python-version ./
+#10 CACHED
+
+#11 [stage-0 6/8] RUN uv sync --locked --no-dev --no-install-project
+#11 CACHED
+
+#12 [stage-0 2/8] RUN apt-get update && apt-get install -y --no-install-recommends libgomp1     && rm -rf /var/lib/apt/lists/*
+#12 CACHED
+
+#13 [stage-0 7/8] COPY common.py predict.py ./
+#13 CACHED
+
+#14 [stage-0 8/8] COPY models/model.bin models/model.bin
+#14 DONE 0.0s
+
+#15 exporting to image
+#15 exporting layers 0.1s done
+#15 exporting manifest sha256:1af8d27d6e71d1bc29a46935c8af198425d7a7f7a13a4d173fad18b219d1c130 0.0s done
+#15 exporting config sha256:0ed11fba1014c0def360d04faff0436a5a84ae7a5105aded01c523acf756f7e2 0.0s done
+#15 exporting attestation manifest sha256:219ac6f4e25aba43468208e12517f3561550ef34ce5478ec8a155377b84e23bd 0.0s done
+#15 exporting manifest list sha256:f6ad0a5de26d4c506faed754cb98898852d00e8e6824e957e18025e572c01c39 0.0s done
+#15 naming to docker.io/library/claim-frequency:v1 done
+#15 unpacking to docker.io/library/claim-frequency:v1 0.1s done
+#15 DONE 0.3s
+Image: "claim-frequency:v1" with ID "sha256:f6ad0a5de26d4c506faed754cb98898852d00e8e6824e957e18025e572c01c39" not yet present on node "claims-control-plane", loading...
+deployment.apps/claim-frequency unchanged
+service/claim-frequency unchanged
+deployment.apps/claim-frequency restarted
+Waiting for deployment "claim-frequency" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "claim-frequency" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "claim-frequency" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "claim-frequency" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "claim-frequency" rollout to finish: 1 old replicas are pending termination...
+deployment "claim-frequency" successfully rolled out
+NAME                              READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/claim-frequency   2/2     2            2           10m
+
+NAME                                   READY   STATUS        RESTARTS   AGE
+pod/claim-frequency-598b878b64-z6w72   1/1     Terminating   0          10m
+pod/claim-frequency-6d8ddd475f-2jr45   1/1     Running       0          7s
+pod/claim-frequency-6d8ddd475f-c78tv   1/1     Running       0          14s
+
+NAME                      TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+service/claim-frequency   NodePort   10.96.145.101   <none>        80:30096/TCP   10m
+Testing http://localhost:30096 ...
+GET /health -> {'status': 'ok', 'model': 'xgboost-poisson', 'test_metrics': {'poisson_deviance': 0.57564, 'd2': 0.08248, 'gini': 0.35192}}
+
+19-year-old, new car, penalised record, Paris region
+  -> {'expected_claims_per_year': 0.3291, 'claim_probability': 0.2804, 'risk_tier': 'high', 'relative_to_portfolio': 3.27}
+
+35-year-old, average city driver
+  -> {'expected_claims_per_year': 0.0877, 'claim_probability': 0.084, 'risk_tier': 'medium', 'relative_to_portfolio': 0.87}
+
+55-year-old, best record, rural
+  -> {'expected_claims_per_year': 0.0629, 'claim_probability': 0.0609, 'risk_tier': 'low', 'relative_to_portfolio': 0.63}

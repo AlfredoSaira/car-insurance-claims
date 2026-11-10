@@ -1,0 +1,10 @@
+.venv
+.git
+data
+docs
+notebook.ipynb
+.ipynb_checkpoints
+__pycache__
+tests
+k8s
+scripts
